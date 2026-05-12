@@ -5,4 +5,4 @@ groq>=0.9
 mem0ai>=0.1
 ably>=2.0
 cloudconvert>=3.0
-python-dotenv>=1.0
+python-dotenv>=1.2.2
