@@ -43,7 +43,7 @@ jobs:
       FIRE_N: ${{ github.event.inputs.fire_n }}
       FIRE_P: ${{ github.event.inputs.fire_p }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
