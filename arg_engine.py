@@ -36,7 +36,7 @@ def get_latest_fire_event():
     """Read FIRE ground truth from @EVEZ666 Twitter scan."""
     try:
         import subprocess
-        result = subprocess.run(["python", "sensors/twitter_fire_sensor.py"], capture_output=True, text=True, timeout=30)
+        result = subprocess.run(["python3", "sensors/twitter_fire_sensor.py"], capture_output=True, text=True, timeout=30)
         if result.returncode == 0:
             return json.loads(result.stdout.strip().split('\n')[-1])
     except Exception as e:
@@ -66,7 +66,7 @@ def generate_reddit_drop(round_n, fire_hash, tau, puzzle, chapter_n=None):
 
 def spawn_new_realm(chapter_n, fire_hash, tau, round_n):
     import subprocess
-    result = subprocess.run(["python", "agents/realm_spawner.py", "--chapter", str(chapter_n), "--fire-hash", fire_hash, "--tau", str(tau), "--round", str(round_n)], capture_output=True, text=True, timeout=60)
+    result = subprocess.run(["python3", "agents/realm_spawner.py", "--chapter", str(chapter_n), "--fire-hash", fire_hash, "--tau", str(tau), "--round", str(round_n)], capture_output=True, text=True, timeout=60)
     if result.returncode == 0:
         try:
             data = json.loads(result.stdout.strip().split('\n')[-1])
