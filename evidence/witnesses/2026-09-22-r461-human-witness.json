@@ -1,0 +1,34 @@
+{
+  "witness_id": "HUMAN_WITNESS_01",
+  "witness_role": "human_observer",
+  "observed_in_session_at": "2026-09-22",
+  "subject": {
+    "round": 461,
+    "tau": 24,
+    "declared_spine_hash": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6",
+    "puzzle_lock_prefix": "2bfa59217ae208ae",
+    "derived_solution_sha256": "7a2515afb05b68536aadc6b5337e5027a9b222e6ad76f8297656445f37d3dcde"
+  },
+  "attestation": {
+    "statement": "The human participant in this session explicitly designates themselves as the witness for this audit and authorizes their presence to be recorded as human observation of the repository state and analysis performed here.",
+    "epistemic_status": "SELF_ATTESTED",
+    "proves": [
+      "A human witness is present in this audit session.",
+      "The witness has personally authorized recording this attestation."
+    ],
+    "does_not_prove": [
+      "That the declared R461 spine hash originated from an independent live EventSpine.",
+      "That a live verifier accepted the solution.",
+      "That realm access or rewards became externally effective."
+    ]
+  },
+  "binding": {
+    "repository": "EvezArt/evez666-arg-canon",
+    "target_commit": "9fa90c7cc8d941fe9e401877847aa3dc320c7ec9",
+    "witness_anchor": "git_commit"
+  },
+  "state_transition": {
+    "type": "WITNESS_ATTESTATION_RECORDED",
+    "declared_not_effective": true
+  }
+}
