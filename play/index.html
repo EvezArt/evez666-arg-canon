@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>EVEZ666 // QUEST STATE</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin:0; background:#101716; color:#d9e2df; font:16px/1.5 system-ui,sans-serif; }
+    main { max-width:760px; margin:auto; padding:28px 18px 56px; }
+    .eyebrow { letter-spacing:.14em; font-size:.72rem; opacity:.58; }
+    h1 { font-size:clamp(2rem,8vw,4.8rem); line-height:.92; margin:.35em 0; }
+    .panel { border:1px solid #31403c; border-radius:14px; padding:18px; margin-top:18px; background:#151d1b; }
+    button { width:100%; padding:14px 16px; margin-top:10px; border:1px solid #51635e; border-radius:10px; background:#1c2825; color:#e8efed; font:inherit; }
+    button:active { transform:translateY(1px); }
+    code { word-break:break-word; }
+    #log { white-space:pre-wrap; font-family:ui-monospace,SFMono-Regular,monospace; font-size:.85rem; }
+    .status { font-size:1.5rem; font-weight:700; }
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">EVEZ666 // EVENTSPINE // PLAYER STATE</div>
+  <h1>PROVE THIS QUEST EXISTS.</h1>
+
+  <div class="panel">
+    <div class="eyebrow">CURRENT STATUS</div>
+    <div id="status" class="status">UNSEEN</div>
+    <div id="head"><code>0000000000000000</code></div>
+  </div>
+
+  <div class="panel">
+    <strong>The punchline is the quest.</strong>
+    <p>Nothing here claims that narrative text changes reality. Progress advances only when you create recorded evidence.</p>
+    <button data-event="PLAYER_VIEW">Observe</button>
+    <button data-event="PLAYER_OPEN_ARTIFACT">Open artifact</button>
+    <button data-event="PLAYER_HASH_CHECK">Verify artifact hash</button>
+    <button data-event="PLAYER_RUN_TEST">Run test</button>
+    <button data-event="PLAYER_SUBMIT_RESULT">Submit supported result</button>
+    <button data-event="PLAYER_REPRODUCE">Record replication</button>
+    <button data-event="PLAYER_RECORD_WITNESS">Record witness</button>
+  </div>
+
+  <div class="panel">
+    <div class="eyebrow">LOCAL EVIDENCE LOG</div>
+    <div id="log">No events recorded.</div>
+  </div>
+</main>
+<script>
+const order = ["UNSEEN","OBSERVED","CORRELATED","TESTED","SUPPORTED","REPLICATED","WITNESS","COMPLETE"];
+const eventMap = {
+  PLAYER_VIEW:["OBSERVED",null],
+  PLAYER_OPEN_ARTIFACT:["OBSERVED",null],
+  PLAYER_HASH_CHECK:["CORRELATED",null],
+  PLAYER_RUN_TEST:["TESTED",null],
+  PLAYER_SUBMIT_RESULT:["SUPPORTED","SUPPORTED"],
+  PLAYER_REPRODUCE:["REPLICATED","REPLICATED"],
+  PLAYER_RECORD_WITNESS:["WITNESS",null]
+};
+
+let state = JSON.parse(localStorage.getItem("evez666-quest") || '{"status":"UNSEEN","events":[],"head":"0000000000000000000000000000000000000000000000000000000000000000"}');
+
+async function digest(text) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(function(x) {
+    return x.toString(16).padStart(2,"0");
+  }).join("");
+}
+
+async function record(type) {
+  const transition = eventMap[type];
+  const candidate = transition[0];
+  const result = transition[1];
+  const current = order.indexOf(state.status);
+  const next = order.indexOf(candidate);
+
+  const event = {
+    event_id: crypto.randomUUID(),
+    event_type: type,
+    timestamp: new Date().toISOString(),
+    quest_id: "Q-001",
+    result: result ? {status: result} : {},
+    prev_hash: state.head
+  };
+
+  event.hash = await digest(JSON.stringify(event));
+  state.events.push(event);
+  if (next > current) state.status = candidate;
+  if (state.status === "WITNESS") state.status = "COMPLETE";
+  state.head = event.hash;
+
+  localStorage.setItem("evez666-quest", JSON.stringify(state));
+  render();
+}
+
+function render() {
+  document.querySelector("#status").textContent = state.status;
+  document.querySelector("#head").innerHTML = "<code>" + state.head + "</code>";
+  document.querySelector("#log").textContent = state.events.map(function(e, i) {
+    return (i + 1) + ". " + e.event_type + "\n   " + e.timestamp + "\n   " + e.hash;
+  }).join("\n\n") || "No events recorded.";
+}
+
+document.querySelectorAll("button").forEach(function(button) {
+  button.onclick = function() { record(button.dataset.event); };
+});
+
+render();
+</script>
+</body>
+</html>

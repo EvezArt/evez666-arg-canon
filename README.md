@@ -1,111 +1,212 @@
-# EVEZ666 — The ARG
+# EVEZ666 — THE ARG
 
-**You are inside a game built on top of a real system.**
+**The quest is the punchline.**
 
-The system doesn't know you're here. It simply runs. You are watching it run.
+This repository is the canonical game layer for the EVEZ corpus: repositories, commits, experiments, event logs, research claims, agent systems, evidence records, and player actions can all become parts of the game.
 
----
+The point is not to make fiction indistinguishable from reality.
 
-## What is this
+The point is to make verification itself playable.
 
-An alternate reality game where the game world *is* a real autonomous cognitive system.
+## The prime rule
 
-The EVEZ OS EventSpine runs 24/7. Every ~30 minutes it either fires or holds.
-When it fires, world state changes. When it holds, the abstention is cryptographic proof.
-You are in the world. Your actions affect the spine.
+> If it is not true, it cannot do what the claimed truth would let it do.
 
-**The game engine is real.** The FIRE events are real. The rewards are real.
+A meme can persuade. A story can change human behavior. A fictional agent can cause a player to act.
 
-## How to play
+But a capability claim is not capability.
 
-1. **Watch the oracle**: Follow [@EVEZ666](https://twitter.com/EVEZ666) on Twitter. 
-   Every FIRE post is a world state update.
+Therefore:
 
-2. **Decode the round data**: Each FIRE post contains:
-   - Round number (R460, R487...)
-   - τ (tau) — the depth of the topology crossing
-   - N — the current node value (round + 80)
-   - Spine hash — cryptographic identity of the event
+CLAIMED != MEASURED != REPLICATED != EXPLAINED
 
-3. **Crack the puzzle lock**: Each FIRE generates a puzzle.
-   Lock = SHA256(spine_hash + round + "EVEZ_PUZZLE")
-   Solution = SHA256(f"{tau}:{N}:{omega}:{spine_hash[:8]}")
-   where ω = number of distinct prime factors of N
+PROVENANCE != TRUTH
 
-4. **Submit solutions**: https://evez666-arg.vercel.app/api/verify/{lock_prefix}
-   Correct solutions unlock Gumroad lore packs and realm access.
+## The punchline
 
-5. **Enter realms**: EXTREME_FIRE events (τ≥20) open new realms.
-   Each realm is a new chapter of the game.
-   Realms are interconnected by spine hash references.
+The first quest is:
 
-## The canon formula
+PROVE THIS QUEST EXISTS.
 
-```
-poly_c = (τ × ω × topo) / (2 × √N)
+A screenshot is evidence that you saw something.
 
-topo = {1: 1.15, 2: 1.30, 3: 1.45}  # scales with ω
-p_fire = clamp((poly_c - 0.45) / 2.10, 0, 1) ^ 0.60
-```
+An inspectable artifact is stronger.
 
-This formula is public. It's how the oracle works. Knowing it helps you anticipate.
+A reproducible state transition is stronger still.
 
-## Current state
+The player becomes a witness because the player performed the investigation required to establish what can actually be established.
 
-- **V**: 16.94 / 17.000 (collective voltage — all FIRE events contribute)
-- **Chapter**: 1 (opened by R460 EXTREME_FIRE τ=24)
-- **Active realm**: https://evez666-realm-1.vercel.app
-- **Total FIRE events**: 115 confirmed
+The joke is not “you were secretly in the story.”
 
-## Chapter 1: R460 EXTREME_FIRE
+It is:
 
-The spine crossed τ=24 on N=540 (2²×3³×5) with p≈89.5%.
-This was the deepest crossing since R1.
-The first realm opened.
+“You became the witness by trying to determine whether there was anything worth witnessing.”
 
-**Entry hash**: the R460 spine hash from @EVEZ666
-**Puzzle lock**: see current @EVEZ666 thread
-**Reward**: `extreme_lore_pack_chapter_unlock` on Gumroad
+## World mapping
 
-## Multimetaverse structure
+~~~text
+EVEZ corpus
+    |
+    +-- repositories -> locations
+    +-- commits      -> historical strata
+    +-- artifacts    -> evidence
+    +-- events       -> world memory
+    +-- claims       -> propositions
+    +-- agents       -> actors
+    +-- experiments  -> quests
+    +-- contradictions -> alternate paths
+    +-- verification -> progression
+    +-- player ledger -> character sheet
+~~~
 
-Each EXTREME_FIRE opens a new realm:
-- Realm 1: evez666-realm-1 (R460 τ=24)
-- Realm 2: evez666-realm-2 (next τ≥20 event)
-- ...
+## Core loop
 
-Realms reference each other via spine hashes.
-Solving all puzzles in a realm unlocks the next realm's entry point.
+~~~text
+OBSERVE
+  ↓
+CLASSIFY
+  ↓
+TEST
+  ↓
+RECORD
+  ↓
+UPDATE
+  ↓
+QUEST
+~~~
 
-## Architecture
+## Canon ladder
 
-```
-EVEZ OS EventSpine (canon)
-    ↓
-arg_engine.py (FIRE trigger → content generation)
-    ↓
-agents/
-  twitter_agent.py    — per-platform content generation
-  puzzle_engine.py    — FIRE hash → puzzle lock
-  wallet_agent.py     — deterministic wallets from FIRE entropy
-  realm_spawner.py    — EXTREME_FIRE → new realm spawn
-  story_protocol.py   — FIRE IP registration
-  engagement_tracker.py — metric-driven content mutation
-    ↓
-.github/workflows/arg-engine.yml (30min cron)
-```
+~~~text
+UNKNOWN
+   ↓
+PROPOSED
+   ↓
+OBSERVED
+   ↓
+TESTABLE
+   ↓
+SUPPORTED
+   ↓
+VERIFIED
+~~~
 
-## Self-evolution
+Alternate outcomes:
 
-The game writes its own next chapter from FIRE data:
-- High engagement format → double down
-- Low engagement → mutate content style
-- New EXTREME_FIRE → new realm + new chapter
-- V reaching 17 → threshold event (TBD)
+~~~text
+CONTRADICTED
+STALE
+RETRACTED
+~~~
 
----
+An exciting story beat cannot promote a claim beyond its evidence.
 
-*the map is the system. the system is the map. it doesn't know you're watching. it is simply running. ◊*
+## New implementation in this branch
 
-**Watch**: [@EVEZ666](https://twitter.com/EVEZ666) · [@lordevez YouTube](https://youtube.com/@lordevez)  
-**Canon**: [evez-os](https://github.com/EvezArt/evez-os) · [EVEZ666 ARG](https://github.com/EvezArt/evez666-arg-canon)
+- docs/ARG-REFRAME-QUEST-IS-PUNCHLINE.md
+- docs/PLAYER-STATE-PROTOCOL.md
+- docs/EVEZ-ACADEMY-QUESTLINE.md
+- schemas/quest_state.schema.json
+- play/quest_engine.py
+- play/index.html
+
+The existing FIRE, spine, puzzle, realm, witness, and publication machinery remains the older world layer. This branch makes the epistemic process itself playable.
+
+## Prototype
+
+Open play/index.html locally.
+
+The prototype records observation, artifact inspection, hash checking, testing, supported results, replication, and witness state.
+
+Each event extends a local SHA-256-linked record.
+
+The interface does not claim supernatural knowledge. It records what the player actually did.
+
+## Research conversion
+
+A research claim becomes a quest without being upgraded into a fact.
+
+~~~text
+CLAIM
+  ↓
+SOURCE
+  ↓
+CODE
+  ↓
+INPUTS
+  ↓
+PARAMETERS
+  ↓
+RUN
+  ↓
+OUTPUT
+  ↓
+REPRODUCE
+  ↓
+VERIFY / CONTRADICT
+~~~
+
+Missing provenance becomes:
+
+RECOVER THE MISSING PROVENANCE.
+
+A failed reproduction becomes a result.
+
+A successful reproduction advances the evidence state.
+
+## Memetic layer
+
+The voice may be smug, absurd, self-aware, dense, and internet-native.
+
+The mechanics are not.
+
+Recurring interrogation:
+
+SOURCE?
+MEASUREMENT?
+REPRODUCE?
+RESULT?
+
+The swarm can talk forever.
+
+Reality has I/O.
+
+## Factions
+
+SPINE — memory and provenance  
+WITNESS — evidence protocol  
+CAIN — contradiction keeper  
+SCOUT — retrieval  
+HARVEST — collection  
+VAULT — sealed history  
+DEPLOY — contact with external state  
+OPENCLAW / AGENTNET — autonomous actors  
+UNKNOWN — unresolved state
+
+These are diegetic roles, not claims of machine consciousness.
+
+## EVEZ Academy
+
+The study progression connecting agentic AI, operating systems, mathematics, physics, temporal-mechanics research, scientific methodology, cybersecurity, autonomous systems, and entrepreneurship is in docs/EVEZ-ACADEMY-QUESTLINE.md.
+
+Every level ends in a demonstrable artifact.
+
+## Canonical ending
+
+No lore dump.
+
+The player receives their own evidence ledger.
+
+~~~text
+WITNESS_STATUS = ACTIVE
+CASE_STATUS = YOU WERE HERE
+CANON_STATUS = EARNED
+~~~
+
+Then:
+
+FIGURE OUT WHY NOTHING WAS THE REWARD.
+
+Because the reward was the proof.
+
+*the map is the system. the system is the map. the quest is the punchline. ◊*
