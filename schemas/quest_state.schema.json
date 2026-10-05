@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EVEZ666 Quest State",
+  "type": "object",
+  "required": ["quest_id", "status", "events", "claims", "artifacts"],
+  "properties": {
+    "quest_id": {"type": "string"},
+    "status": {
+      "type": "string",
+      "enum": ["UNSEEN", "OBSERVED", "CORRELATED", "TESTED", "SUPPORTED", "CONTRADICTED", "REPLICATED", "WITNESS", "COMPLETE"]
+    },
+    "events": {"type": "array", "items": {"$ref": "#/$defs/event"}},
+    "claims": {"type": "array", "items": {"type": "string"}},
+    "artifacts": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "event": {
+      "type": "object",
+      "required": ["event_id", "event_type", "timestamp"],
+      "properties": {
+        "event_id": {"type": "string"},
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "PLAYER_VIEW",
+            "PLAYER_OPEN_ARTIFACT",
+            "PLAYER_HASH_CHECK",
+            "PLAYER_RUN_TEST",
+            "PLAYER_SUBMIT_RESULT",
+            "PLAYER_CHALLENGE_CLAIM",
+            "PLAYER_REPRODUCE",
+            "PLAYER_RECORD_WITNESS"
+          ]
+        },
+        "timestamp": {"type": "string"},
+        "player_id": {"type": "string"},
+        "quest_id": {"type": "string"},
+        "artifact_id": {"type": "string"},
+        "claim_id": {"type": "string"},
+        "input_hash": {"type": "string"},
+        "result": {"type": "object"},
+        "prev_hash": {"type": "string"},
+        "hash": {"type": "string"}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}
